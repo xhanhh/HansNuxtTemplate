@@ -24,4 +24,15 @@ export default defineNuxtConfig({
     }
   },
 
+  vite: {
+    optimizeDeps: {
+      include: [
+        'dayjs', // CJS
+        'dayjs/plugin/relativeTime', // CJS
+        'dayjs/plugin/updateLocale', // CJS
+        'dayjs/plugin/utc', // CJS
+      ]
+    }
+  }
+
 })
