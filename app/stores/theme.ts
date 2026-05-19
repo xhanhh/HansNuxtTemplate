@@ -1,23 +1,34 @@
-import { ref, onMounted, watch, computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
 
 export const useThemeStore = defineStore('theme', () => {
-
     const colorMode = useColorMode()
-
     const themeName = ref<ThemeMode>('auto')
-
     const prefersDark = ref(false)
+    const hasInitialized = ref(false)
+    let mediaQuery: MediaQueryList | null = null
+
+    const syncColorMode = () => {
+        colorMode.preference = themeName.value === 'auto' ? 'system' : themeName.value
+        colorMode.value = actualTheme.value
+    }
 
     const setupSystemThemeListener = () => {
-        if (import.meta.client && window.matchMedia) {
-            const media = window.matchMedia('(prefers-color-scheme: dark)')
-            prefersDark.value = media.matches
-            media.addEventListener('change', (e) => {
-                prefersDark.value = e.matches
-            })
+        if (!import.meta.client || !window.matchMedia || mediaQuery) {
+            return
+        }
+
+        mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        prefersDark.value = mediaQuery.matches
+
+        const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+            prefersDark.value = event.matches
+        }
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', handleChange)
         }
     }
 
@@ -29,15 +40,13 @@ export const useThemeStore = defineStore('theme', () => {
     })
 
     const initTheme = () => {
-        if (import.meta.client) {
-            const saved = localStorage.getItem('theme') as ThemeMode | null
-            if (saved === 'light' || saved === 'dark' || saved === 'auto') {
-                themeName.value = saved
-            } else {
-                themeName.value = 'auto'
-            }
+        if (!import.meta.client || hasInitialized.value) {
+            return
         }
-        colorMode.value = actualTheme.value
+
+        setupSystemThemeListener()
+        syncColorMode()
+        hasInitialized.value = true
     }
 
     const toggleTheme = () => {
@@ -49,21 +58,8 @@ export const useThemeStore = defineStore('theme', () => {
                     : 'light'
     }
 
-    watch(themeName, (val) => {
-        if (import.meta.client) {
-            localStorage.setItem('theme', val)
-        }
-    })
-
-    watch(prefersDark, () => {
-        if (themeName.value === 'auto') {
-            colorMode.value = actualTheme.value
-        }
-    })
-
-    onMounted(() => {
-        initTheme()
-        setupSystemThemeListener()
+    watch(actualTheme, () => {
+        syncColorMode()
     })
 
     return {
@@ -73,5 +69,7 @@ export const useThemeStore = defineStore('theme', () => {
         initTheme,
     }
 }, {
-    persist: true
+    persist: {
+        pick: ['themeName'],
+    },
 })
