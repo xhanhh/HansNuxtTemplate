@@ -15,27 +15,27 @@
     "@nuxt/hints": "1.0.2",
     "@nuxt/image": "2.0.0",
     "@nuxt/scripts": "0.13.2",
-    "@nuxt/ui": "4.6.0",
+    "@nuxt/ui": "4.13.1",
     "@nuxtjs/sitemap": "8.0.11",
     "@pinia/nuxt": "0.11.3",
     "@vueuse/core": "^14.4.0",
     "@vueuse/nuxt": "14.2.1",
     "dayjs": "^1.11.23",
     "dayjs-nuxt": "2.1.11",
-    "nuxt": "^4.5.2",
+    "nuxt": "^4.7.0",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3",
-    "vue": "^3.5.41",
-    "vue-router": "^5.2.0",
-    "zod": "^4.4.3"
+    "vue": "^3.5.46",
+    "vue-router": "^5.5.1",
+    "zod": "^4.6.7"
   },
-  "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621",
+  "packageManager": "pnpm@12.23.0+sha512.02da94ffaf133f46074322afe552f90d40b5f71ae259aefbccdacc5085b1d617e98d65e0131f5748b9b67445978ee5055d7d59a473f1eef0d504854fefcd5975",
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.123",
-    "@types/node": "^25.9.5",
-    "sass-embedded": "^1.102.0",
-    "vue-tsc": "^3.3.10"
+    "@iconify-json/lucide": "^1.2.158",
+    "@types/node": "^25.9.9",
+    "sass-embedded": "^1.108.2",
+    "vue-tsc": "^3.3.14"
   }
 }
